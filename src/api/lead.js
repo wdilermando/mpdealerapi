@@ -13,7 +13,13 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const input = { body: { name: 'Dayanne', email: ['dayannebarbosall@gmail.com'], phone: ['81997503145', '81981549315'] } };
+  if (!req.body || !req.body.name || !req.body.email) {
+    res.send('Set user info');
+  }
+  const { name, email } = req.body;
+  const input = {
+    body: { name, email }
+  };
 
   const lead = await pipedrive.PersonsController.addAPerson(input, (error, response, context) => {
     if (error) {
